@@ -7,7 +7,7 @@ public class Country extends Facet {
     }
 
     public String getNodeString(){
-        return ":Facet:Country {id:'" + qid + "', label:'" + label + "'}";
+        return ":Country {id:'" + qid + "', label:'" + label + "'}";
     }
 
     public String getCypherCreate() {

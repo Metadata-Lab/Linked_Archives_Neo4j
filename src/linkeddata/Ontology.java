@@ -66,6 +66,8 @@ public class Ontology {
             System.out.println("done: collections");
             for (Item x : items.values()) { writer.write(x.getCypherCreate()+'\n'); }
             System.out.println("done: items");
+            for (Facet x : facets.values()) { writer.write(x.getCypherCreate()+'\n'); }
+            System.out.println("done: facets");
             for (Person x : people.values()) { writer.write(x.getCypherCreate()+'\n'); }
             System.out.println("done: people");
 

@@ -7,7 +7,7 @@ public class Sex extends Facet {
     }
 
     public String getNodeString(){
-        return ":Facet:Sex {id:'" + qid + "', label:'" + label + "'}";
+        return ":Sex {id:'" + qid + "', label:'" + label + "'}";
     }
 
     public String getCypherCreate() {

@@ -59,7 +59,7 @@ public class Person extends Entity {
             cypherNode = ":Person {name: '"+getLabel()+"', iri: '"+getIrisAsString()+ "', roles: '"+roleString+ "'}";
         } else {
             cypherNode = ":Person {name: '"+getLabel()+"', iri: '"+getIrisAsString()+ "', roles: '"+roleString+
-                    "', date of birth:'" + birthdate + "', date of death:'" + deathdate + "'}";
+                    "', date_of_birth:'" + birthdate + "', date_of_death:'" + deathdate + "'}";
         }
         return cypherNode;
     }
@@ -78,7 +78,7 @@ public class Person extends Entity {
             int countc = 1;
             for (Facet c : countries) {
                 cypher += "MATCH (c" + countc + c.getNodeString() + "), (p" + getNodeString() + ")";
-                cypher += " CREATE (p)-[:CITITZEN_OF]->(c" + countc + ")\n";
+                cypher += " CREATE (p)-[:IS_CITITZEN_OF]->(c" + countc + ")\n";
                 countc++;
             }
         }
@@ -89,6 +89,10 @@ public class Person extends Entity {
                 cypher += " CREATE (p)-[:HAS_OCCUPATION]->(o" + countOcc + ")\n";
                 countOcc++;
             }
+        }
+        if (sex != null) {
+            cypher += "MATCH (s" + sex.getNodeString() + "), (p"+getNodeString()+ ")";
+            cypher += " CREATE (p)-[:IS_OF_SEX]->(s" + ")\n";
         }
         return cypher;
     }

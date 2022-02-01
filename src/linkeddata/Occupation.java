@@ -7,7 +7,7 @@ public class Occupation extends Facet {
     }
 
     public String getNodeString(){
-        return ":Facet:Occupation {id:'" + qid + "', label:'" + label + "'}";
+        return ":Occupation {id:'" + qid + "', label:'" + label + "'}";
     }
 
     public String getCypherCreate() {
