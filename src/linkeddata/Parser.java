@@ -146,7 +146,7 @@ public class Parser {
         for (String line : itemLines) {
             String[] split = line.split("\\|");
             Item item = new Item(split[15], split[0], ontology.getCollection(split[1]), split[8],
-                    split[10], split[11], ontology.getSubject(split[11]), split[12], split[13], split[14]);
+                    split[9], split[10], ontology.getSubject(split[11]), split[12], split[13], split[14]);
             ontology.addObject(split[15], item);
         }
     }
