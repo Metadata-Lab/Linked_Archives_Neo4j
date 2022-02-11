@@ -32,12 +32,12 @@ public class Item extends Entity {
 
     public String getNodeString() {
         String cypherNode = ":Item {label: '"+getLabel()+"', iri: '"+getIrisAsString()+
-               "', date: '"+ this.date.replace("'", "`")+
-                "', description: '"+this.description.replace("'", "`")+
-                "', identifier: '"+this.identifier.replace("'", "`")+
-                "', title: '"+ this.title.replace("'", "`")+
-                "', type: '"+this.type.replace("'", "`")+"', mediaType: '"+
-                this.mediaType.replace("'", "`")+"'}";
+               "', date: '"+ this.date+
+                "', description: '"+this.description+
+                "', identifier: '"+this.identifier+
+                "', title: '"+ this.title+
+                "', type: '"+this.type+"', mediaType: '"+
+                this.mediaType+"'}";
         return cypherNode;
     }
 

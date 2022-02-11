@@ -26,6 +26,8 @@ public class Parser {
 
         categories.put("/subject", subjectLines);
         categories.put("227.", itemLines); //belfer
+        categories.put("140.", itemLines); //becker
+        categories.put("185.", itemLines); //koppel
         categories.put("/person", personLines);
         categories.put("/collection", collectLines);
     }
@@ -37,12 +39,12 @@ public class Parser {
             BufferedReader reader = new BufferedReader(new FileReader(this.owlFile));
             String string;
             while ((string = reader.readLine()) != null) {
-                int pipe = string.indexOf('|');
-                String splice = string.substring(0, pipe);
+                int tab = string.indexOf('\t');
+                String splice = string.substring(0, tab);
 
                 for (String s : categories.keySet()) {
                     if (splice.contains(s)) {
-                        categories.get(s).add(string);
+                        categories.get(s).add(string.replace("\"", ""));
                     }
                 }
             }
@@ -109,7 +111,7 @@ public class Parser {
      */
 
     List<String> divideEntries(String str){
-        String[] list = str.split("\t");
+        String[] list = str.split("\\*");
         List<String> items = new ArrayList<>();
         for (int i = 0; i < list.length; i++) {
             String item = list[i];
@@ -121,7 +123,7 @@ public class Parser {
 
     public void parseCollections(){
         for (String line : collectLines) {
-            String[] split = line.split("\\|");
+            String[] split = line.split("\t");
             String label = split[15];
             List<String> subjectStr = divideEntries(split[11]);
             List<Subject> subjects = new ArrayList<>();
@@ -144,7 +146,7 @@ public class Parser {
 
     public void parseItems(){
         for (String line : itemLines) {
-            String[] split = line.split("\\|");
+            String[] split = line.split("\t");
             Item item = new Item(split[15], split[0], ontology.getCollection(split[1]), split[8],
                     split[9], split[10], ontology.getSubject(split[11]), split[12], split[13], split[14]);
             ontology.addObject(split[15], item);
@@ -163,7 +165,7 @@ public class Parser {
     }
 
     List<Facet> extractFacets(String facetString) {
-        String[] facetIds = facetString.split(",");
+        String[] facetIds = facetString.split("|");
         List<Facet> facets = new ArrayList<>();
         for (String id : facetIds) {
             Facet f = ontology.getFacet(id);
@@ -174,7 +176,7 @@ public class Parser {
 
     public void parsePeople(){
         for (String line : personLines) {
-            String[] split = line.split("\\|");
+            String[] split = line.split("\t");
             String label = split[3];
             List<String> roles = divideEntries(split[7]);
             List<String> relStr = divideEntries(split[2]);
@@ -224,7 +226,7 @@ public class Parser {
 
     public void parseSubjects(){
         for (String line : subjectLines) {
-            String[] split = line.split("\\|");
+            String[] split = line.split("\t");
             String label = split[0].substring(split[0].lastIndexOf("/")+1);
             if (ontology.subjectExists(label)) {
                 Subject subject = ontology.getSubject(label);
