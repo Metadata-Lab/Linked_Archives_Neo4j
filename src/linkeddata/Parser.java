@@ -62,15 +62,15 @@ public class Parser {
             while ((string = reader.readLine()) != null) {
                 String[] split = string.split(",");
                 if (split[2].equals("Country")) {
-                    Country c = new Country(split[1], split[0]);
+                    Country c = new Country(split[0], split[1]);
                     ontology.addFacet(split[0], c);
                 }
                 else if (split[2].equals("Occupation")) {
-                    Occupation o = new Occupation(split[1], split[0]);
+                    Occupation o = new Occupation(split[0], split[1]);
                     ontology.addFacet(split[0], o);
                 }
                 else if (split[2].equals("Sex")) {
-                    Sex s = new Sex(split[1], split[0]);
+                    Sex s = new Sex(split[0], split[1]);
                     ontology.addFacet(split[0], s);
                 }
             }
