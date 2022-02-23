@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb8cdd50-9d70-42b8-9564-219b35fd3260" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linked_Archives_Neo4j.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Linked_Archives_Neo4j.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/all_ids.txt" beforeDir="false" afterPath="$PROJECT_DIR$/all_ids.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/all_owl.txt" beforeDir="false" afterPath="$PROJECT_DIR$/all_owl.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/all_owl.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/all_owl.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cypher.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cypher.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/linkeddata/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/linkeddata/Parser.java" afterDir="false" />
     </list>
@@ -42,7 +38,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1645496128696" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1645584128440" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -130,6 +126,9 @@
       <workItem from="1645491994063" duration="750000" />
       <workItem from="1645494823760" duration="280000" />
       <workItem from="1645496056362" duration="94000" />
+      <workItem from="1645574129334" duration="1918000" />
+      <workItem from="1645576511714" duration="390000" />
+      <workItem from="1645592028008" duration="1000" />
     </task>
     <servers />
   </component>
@@ -164,7 +163,7 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Linked_Archives_Neo4j$insert_cypher.coverage" NAME="insert_cypher Coverage Results" MODIFIED="1645496162338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Linked_Archives_Neo4j$insert_cypher.coverage" NAME="insert_cypher Coverage Results" MODIFIED="1645584222070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="masterDetails">
     <states>

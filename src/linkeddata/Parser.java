@@ -63,15 +63,15 @@ public class Parser {
                 String[] split = string.split(",");
                 if (split[2].equals("Country")) {
                     Country c = new Country(split[0], split[1]);
-                    ontology.addFacet(split[0], c);
+                    ontology.addFacet(split[1], c);
                 }
                 else if (split[2].equals("Occupation")) {
                     Occupation o = new Occupation(split[0], split[1]);
-                    ontology.addFacet(split[0], o);
+                    ontology.addFacet(split[1], o);
                 }
                 else if (split[2].equals("Sex")) {
                     Sex s = new Sex(split[0], split[1]);
-                    ontology.addFacet(split[0], s);
+                    ontology.addFacet(split[1], s);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -165,7 +165,7 @@ public class Parser {
     }
 
     List<Facet> extractFacets(String facetString) {
-        String[] facetIds = facetString.split("|");
+        String[] facetIds = facetString.split("\\|");
         List<Facet> facets = new ArrayList<>();
         for (String id : facetIds) {
             Facet f = ontology.getFacet(id);
@@ -190,7 +190,7 @@ public class Parser {
             String birthdate;
             String deathdate;
 
-            if (split[16].equals("0.0")) {
+            if (split[16].equals("0")) {
                 wikiname = null;
                 wikiid = null;
                 birthdate = null;
