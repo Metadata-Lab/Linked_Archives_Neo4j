@@ -59,7 +59,8 @@ public class Person extends Entity {
             cypherNode = ":Person {name: '"+getLabel()+"', iri: '"+getIrisAsString()+ "', roles: '"+roleString+ "'}";
         } else {
             cypherNode = ":Person {name: '"+getLabel()+"', iri: '"+getIrisAsString()+ "', roles: '"+roleString+
-                    "', date_of_birth:'" + birthdate + "', date_of_death:'" + deathdate + "'}";
+                    "', wikidata_id:'" + wikidata_id +"', date_of_birth:'" + birthdate + "', date_of_death:'" +
+                    deathdate + "'}";
         }
         return cypherNode;
     }
