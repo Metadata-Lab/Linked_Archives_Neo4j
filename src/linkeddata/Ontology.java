@@ -5,20 +5,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
 
 
-public class Ontology {
+class Ontology {
 
     private Map<String, Collection> collections;
     private Map<String, Item> items;
     private Map<String, Person> people;
     private Map<String, Subject> subjects;
-    public Map<String, Facet> facets;
+    private Map<String, Facet> facets;
 
-    public Ontology(){
+    Ontology(){
         collections = new HashMap<>();
         items = new HashMap<>();
         people = new HashMap<>();
@@ -26,21 +23,21 @@ public class Ontology {
         facets = new HashMap<>();
     }
 
-    public void addObject(String label, Collection obj) { collections.put(label, obj); }
-    public void addObject(String label, Item obj) { items.put(label, obj); }
-    public void addObject(String label, Person obj) { people.put(label, obj); }
-    public void addObject(String label, Subject obj) { subjects.put(label, obj); }
+    void addObject(String label, Collection obj) { collections.put(label, obj); }
+    void addObject(String label, Item obj) { items.put(label, obj); }
+    void addObject(String label, Person obj) { people.put(label, obj); }
+    void addObject(String label, Subject obj) { subjects.put(label, obj); }
 
-    public void addFacet(String id, Facet obj) { facets.put(id, obj); }
-    public Facet getFacet(String id) { return facets.get(id); }
+    void addFacet(String id, Facet obj) { facets.put(id, obj); }
+    Facet getFacet(String id) { return facets.get(id); }
 
-    public Collection getCollection(String label) { return collections.get(label); }
-    public Person getPerson(String label) { return people.get(label); }
+    Collection getCollection(String label) { return collections.get(label); }
+    Person getPerson(String label) { return people.get(label); }
 
-    public boolean personExists(String label) { return (people.keySet().contains(label)); }
-    public boolean subjectExists(String label) { return (subjects.keySet().contains(label)); }
+    boolean personExists(String label) { return (people.keySet().contains(label)); }
+    boolean subjectExists(String label) { return (subjects.keySet().contains(label)); }
 
-    public Item getItem(String label) {
+    Item getItem(String label) {
         if (items.get(label) != null) return items.get(label);
         else {
             for (String s : items.keySet()) {
@@ -51,11 +48,11 @@ public class Ontology {
         }
     }
 
-    public Subject getSubject(String label) {
+    Subject getSubject(String label) {
         return subjects.get(label);
     }
 
-    public void printOntologyCypher() {
+    void printOntologyCypher() {
 
         try {
             FileWriter file = new FileWriter("cypher.txt");

@@ -2,10 +2,10 @@ package linkeddata;
 
 public abstract class Facet {
 
-    protected String label = "";
-    protected String qid = "";
+    protected String label;
+    String qid;
 
-    public Facet(String label, String qid) {
+    Facet(String label, String qid) {
         this.label = label;
         this.qid = qid;
     }

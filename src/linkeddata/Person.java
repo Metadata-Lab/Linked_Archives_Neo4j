@@ -3,17 +3,17 @@ package linkeddata;
 import java.util.List;
 public class Person extends Entity {
 
-    List<String> roles;
-    List<Entity> related;
-    String wikidata_name;
-    String wikidata_id;
-    String birthdate;
-    String deathdate;
-    Facet sex;
-    List<Facet> countries;
-    List<Facet> occupations;
+    private List<String> roles;
+    private List<Entity> related;
+    private String wikidata_name;
+    private String wikidata_id;
+    private String birthdate;
+    private String deathdate;
+    private Facet sex;
+    private List<Facet> countries;
+    private List<Facet> occupations;
 
-    public Person(String label, String iri, List<String> role, List<Entity> related, String wikidata_name,
+    Person(String label, String iri, List<String> role, List<Entity> related, String wikidata_name,
                   String wikidata_id, String birthdate, String deathdate, Facet sex, List<Facet> countries,
                   List<Facet> occupations) {
         super(label, iri);
@@ -28,18 +28,14 @@ public class Person extends Entity {
         this.occupations = occupations;
     }
 
-    public String getType() {return "Person";}
-
-    public void addRoles(List<String> roles) {
+    void addRoles(List<String> roles) {
         for (String role : roles) {
             if (!roles.contains(role)) this.roles.add(role);
         }
     }
 
-    public void addRelated(List<Entity> items) {
-        for (Entity i : items){
-            this.related.add(i);
-        }
+    void addRelated(List<Entity> items) {
+        this.related.addAll(items);
     }
 
     public Collection relatedCollection() {
@@ -51,50 +47,52 @@ public class Person extends Entity {
     }
 
     public String getNodeString() {
-        String roleString = "";
-        for (String r : roles) { roleString += r+", "; }
-        if (roleString.length() != 0) roleString = roleString.substring(0, roleString.length()-2);
+        StringBuilder roleString = new StringBuilder();
+        for (String r : roles) { roleString.append(r).append(", "); }
+        if (roleString.length() != 0) roleString.append(roleString.substring(0, roleString.length()-2));
         String cypherNode;
-        if (wikidata_id == null) {
-            cypherNode = ":Person {name: '"+getLabel()+"', iri: '"+getIrisAsString()+ "', roles: '"+roleString+ "'}";
-        } else {
-            cypherNode = ":Person {name: '"+getLabel()+"', iri: '"+getIrisAsString()+ "', roles: '"+roleString+
-                    "', wikidata_id:'" + wikidata_id +"', date_of_birth:'" + birthdate + "', date_of_death:'" +
+        if (wikidata_id != null)
+            cypherNode = ":Person {name: '" + getLabel() + "', iri: '" + getIrisAsString() + "', roles: '" + roleString.toString() +
+                    "', wikidata_id:'" + wikidata_id + "', wikidata_name:'" + wikidata_name +
+                    "', date_of_birth:'" + birthdate + "', date_of_death:'" +
                     deathdate + "'}";
-        }
+        else
+            cypherNode = ":Person {name: '"+getLabel()+"', iri: '"+getIrisAsString()+ "', roles: '"+roleString.toString()+ "'}";
+
         return cypherNode;
     }
 
 
     public String getCypherCreate() {
-        String cypher = "CREATE ("+getNodeString()+")\n";
+        StringBuilder cypher = new StringBuilder();
+        cypher.append("CREATE (").append(getNodeString()).append(")\n");
         int countRel = 1;
         for (Entity rel : related) {
             if (rel == null) continue;
-            cypher += "MATCH (e" + countRel + rel.getNodeString() + "), (p"+getNodeString()+ ")";
-            cypher += " CREATE (p)-[:IS_RELATED_TO]->(e" + countRel + ")\n";
+            cypher.append("MATCH (e").append(countRel).append(rel.getNodeString()).append("), (p").append(getNodeString())
+                    .append(")").append(" CREATE (p)-[:IS_RELATED_TO]->(e").append(countRel).append(")\n");
             countRel++;
         }
         if (countries != null) {
             int countc = 1;
             for (Facet c : countries) {
-                cypher += "MATCH (c" + countc + c.getNodeString() + "), (p" + getNodeString() + ")";
-                cypher += " CREATE (p)-[:IS_CITITZEN_OF]->(c" + countc + ")\n";
+                cypher.append("MATCH (c").append(countc).append(c.getNodeString()).append("), (p").append(getNodeString()).append(")")
+                        .append(" CREATE (p)-[:IS_CITITZEN_OF]->(c").append(countc).append(")\n");
                 countc++;
             }
         }
         if (occupations != null) {
             int countOcc = 1;
             for (Facet occ : occupations) {
-                cypher += "MATCH (o" + countOcc + occ.getNodeString() + "), (p"+getNodeString()+ ")";
-                cypher += " CREATE (p)-[:HAS_OCCUPATION]->(o" + countOcc + ")\n";
+                cypher.append("MATCH (o").append(countOcc).append(occ.getNodeString()).append("), (p").append(getNodeString()).append(")")
+                        .append(" CREATE (p)-[:HAS_OCCUPATION]->(o").append(countOcc).append(")\n");
                 countOcc++;
             }
         }
         if (sex != null) {
-            cypher += "MATCH (s" + sex.getNodeString() + "), (p"+getNodeString()+ ")";
-            cypher += " CREATE (p)-[:IS_OF_SEX]->(s" + ")\n";
+            cypher.append("MATCH (s").append(sex.getNodeString()).append("), (p").append(getNodeString()).append(")")
+                    .append(" CREATE (p)-[:IS_OF_SEX]->(s").append(")\n");
         }
-        return cypher;
+        return cypher.toString();
     }
 }

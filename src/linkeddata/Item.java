@@ -2,16 +2,16 @@ package linkeddata;
 
 public class Item extends Entity {
 
-    Collection isPartOf;
-    String date;
-    String description;
-    String identifier;
-    Subject subject;
-    String title;
-    String type;
-    String mediaType;
+    private Collection isPartOf;
+    private String date;
+    private String description;
+    private String identifier;
+    private Subject subject;
+    private String title;
+    private String type;
+    private String mediaType;
 
-    public Item(String label, String iri, Collection isPartOf, String date, String desc, String id,
+    Item(String label, String iri, Collection isPartOf, String date, String desc, String id,
                 Subject subject, String title, String type, String mediaType) {
         super(label, iri);
         this.isPartOf = isPartOf;
@@ -24,21 +24,18 @@ public class Item extends Entity {
         this.mediaType = mediaType;
     }
 
-    public String getType() {return "Item";}
-
     public Collection relatedCollection() {
         return isPartOf;
     }
 
     public String getNodeString() {
-        String cypherNode = ":Item {label: '"+getLabel()+"', iri: '"+getIrisAsString()+
-               "', date: '"+ this.date+
+        return ":Item {label: '"+getLabel()+"', iri: '"+getIrisAsString()+
+                "', date: '"+ this.date+
                 "', description: '"+this.description+
                 "', identifier: '"+this.identifier+
                 "', title: '"+ this.title+
                 "', type: '"+this.type+"', mediaType: '"+
                 this.mediaType+"'}";
-        return cypherNode;
     }
 
     public String getCypherCreate() {

@@ -5,15 +5,13 @@ import java.util.List;
 
 public abstract class Entity {
 
-    protected String label = "";
+    protected String label;
     private List<String> IRI = new ArrayList<>();
 
-    public Entity(String label, String iri) {
+    Entity(String label, String iri) {
         this.label = label;
         addIRI(iri);
     }
-
-    public abstract String getType();
 
     public abstract String getNodeString();
 
@@ -27,24 +25,16 @@ public abstract class Entity {
         label = newLabel;
     }
 
-    public List<String> getIRIs() {
-        return IRI;
-    }
 
-    public String getIrisAsString() {
-        String str = "";
+    String getIrisAsString() {
+        StringBuilder str = new StringBuilder();
         for (String s : IRI) {
-            str += s.replace("'", "`") + ", ";
+            str.append(s.replace("'", "`")).append(", ");
         }
-        str = str.substring(0, str.length() - 2);
-        return str;
+        return str.toString().substring(0, str.length() - 2);
     }
 
-    public void setIRIs(List<String> newIRIs){
-        IRI = newIRIs;
-    }
-
-    public void addIRI(String newIRI){
+    void addIRI(String newIRI){
         IRI.add(newIRI);
     }
 

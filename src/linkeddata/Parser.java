@@ -1,25 +1,26 @@
 package linkeddata;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Parser {
+class Parser {
 
-    String owlFile;
-    String idFile;
-    Ontology ontology;
+    private String owlFile;
+    private String idFile;
+    private Ontology ontology;
 
-    List<String> collectLines = new ArrayList<>();
-    List<String> itemLines = new ArrayList<>();
-    List<String> personLines = new ArrayList<>();
-    List<String> subjectLines = new ArrayList<>();
+    private List<String> collectLines = new ArrayList<>();
+    private List<String> itemLines = new ArrayList<>();
+    private List<String> personLines = new ArrayList<>();
+    private List<String> subjectLines = new ArrayList<>();
 
-    Map<String, List<String>> categories =  new HashMap<>();
+    private Map<String, List<String>> categories =  new HashMap<>();
 
-    public Parser(String owlFile, String idFile){
+    Parser(String owlFile, String idFile){
         this.owlFile = owlFile;
         this.idFile = idFile;
         ontology = new Ontology();
@@ -32,9 +33,9 @@ public class Parser {
         categories.put("/collection", collectLines);
     }
 
-    public Ontology getOntology() { return ontology; }
+    Ontology getOntology() { return ontology; }
 
-    public void readOwl(){
+    private void readOwl(){
         try {
             BufferedReader reader = new BufferedReader(new FileReader(this.owlFile));
             String string;
@@ -55,23 +56,23 @@ public class Parser {
         }
     }
 
-    public void readIDs(){
+    private void readIDs(){
         try {
             BufferedReader reader = new BufferedReader(new FileReader(this.idFile));
             String string;
             while ((string = reader.readLine()) != null) {
                 String[] split = string.split(",");
-                if (split[2].equals("Country")) {
-                    Country c = new Country(split[0], split[1]);
-                    ontology.addFacet(split[1], c);
-                }
-                else if (split[2].equals("Occupation")) {
-                    Occupation o = new Occupation(split[0], split[1]);
-                    ontology.addFacet(split[1], o);
-                }
-                else if (split[2].equals("Sex")) {
-                    Sex s = new Sex(split[0], split[1]);
-                    ontology.addFacet(split[1], s);
+                switch(split[2]) {
+                    case "Country":
+                        ontology.addFacet(split[1], new Country(split[0], split[1]));
+                        break;
+                    case "Occupation":
+                        ontology.addFacet(split[1], new Occupation(split[0], split[1]));
+                        break;
+                    case "Sex":
+                        ontology.addFacet(split[1], new Sex(split[0], split[1]));
+                        break;
+
                 }
             }
         } catch (FileNotFoundException e) {
@@ -81,7 +82,7 @@ public class Parser {
         }
     }
 
-    public void parseAll(){
+    void parseAll(){
         readIDs();
         readOwl();
         parseSubjects();
@@ -90,38 +91,12 @@ public class Parser {
         parsePeople();
     }
 
-    /*
-     Property           Index
-     "IRI"              0
-     "is_part_of"       1
-     "is_related_to"    2
-     "name"             3
-     "firstname"        4
-     "lastname"         5
-     "middleinitial"    6
-     "role"             7
-     "date"             8
-     "description"      9
-     "identifier"       10
-     "subject"          11
-     "title"            12
-     "type"             13
-     "mediaType"        14
-     "label"            15
-     */
-
-    List<String> divideEntries(String str){
+    private List<String> divideEntries(String str){
         String[] list = str.split("\\*");
-        List<String> items = new ArrayList<>();
-        for (int i = 0; i < list.length; i++) {
-            String item = list[i];
-            items.add(item);
-
-        }
-        return items;
+        return new ArrayList<>(Arrays.asList(list));
     }
 
-    public void parseCollections(){
+    private void parseCollections(){
         for (String line : collectLines) {
             String[] split = line.split("\t");
             String label = split[15];
@@ -144,7 +119,7 @@ public class Parser {
         }
     }
 
-    public void parseItems(){
+    private void parseItems(){
         for (String line : itemLines) {
             String[] split = line.split("\t");
             Item item = new Item(split[15], split[0], ontology.getCollection(split[1]), split[8],
@@ -153,7 +128,7 @@ public class Parser {
         }
     }
 
-    List<Entity> extractEntities(List<String> itemStrs) {
+    private List<Entity> extractEntities(List<String> itemStrs) {
         List<Entity> entities = new ArrayList<>();
         for (String label : itemStrs) {
             Entity toAdd;
@@ -164,7 +139,7 @@ public class Parser {
         return entities;
     }
 
-    List<Facet> extractFacets(String facetString) {
+    private List<Facet> extractFacets(String facetString) {
         String[] facetIds = facetString.split("\\|");
         List<Facet> facets = new ArrayList<>();
         for (String id : facetIds) {
@@ -174,7 +149,7 @@ public class Parser {
         return facets;
     }
 
-    public void parsePeople(){
+    private void parsePeople(){
         for (String line : personLines) {
             String[] split = line.split("\t");
             String label = split[3];
@@ -224,7 +199,7 @@ public class Parser {
         }
     }
 
-    public void parseSubjects(){
+    private void parseSubjects(){
         for (String line : subjectLines) {
             String[] split = line.split("\t");
             String label = split[0].substring(split[0].lastIndexOf("/")+1);
