@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 class Ontology {
 
+    //map label of object to object by type
     private Map<String, Collection> collections;
     private Map<String, Item> items;
     private Map<String, Person> people;
@@ -23,23 +24,36 @@ class Ontology {
         facets = new HashMap<>();
     }
 
+    //add objects to appropriate map based on type (types that extend Entity)
     void addObject(String label, Collection obj) { collections.put(label, obj); }
     void addObject(String label, Item obj) { items.put(label, obj); }
     void addObject(String label, Person obj) { people.put(label, obj); }
     void addObject(String label, Subject obj) { subjects.put(label, obj); }
 
+    //add Facet type objects (all in same map)
     void addFacet(String id, Facet obj) { facets.put(id, obj); }
-    Facet getFacet(String id) { return facets.get(id); }
 
+    //get objects by wiki id or label
+    Facet getFacet(String id) { return facets.get(id); }
     Collection getCollection(String label) { return collections.get(label); }
     Person getPerson(String label) { return people.get(label); }
+    Subject getSubject(String label) {
+        return subjects.get(label);
+    }
 
+    //check if object already exists in ontology
     boolean personExists(String label) { return (people.keySet().contains(label)); }
     boolean subjectExists(String label) { return (subjects.keySet().contains(label)); }
 
+    /**
+     * get Item based on label
+     * @param label label of item
+     * @return Item object if exist, null if not
+     */
     Item getItem(String label) {
         if (items.get(label) != null) return items.get(label);
         else {
+            //account for slight variations in label
             for (String s : items.keySet()) {
                 if (s.contains(label)) return items.get(s);
                 else if (s.contains(label.replace("\"", "\'"))) return items.get(s);
@@ -48,10 +62,9 @@ class Ontology {
         }
     }
 
-    Subject getSubject(String label) {
-        return subjects.get(label);
-    }
-
+    /**
+     * write all cypher statements to create ontology in neo4j to text file
+     */
     void printOntologyCypher() {
 
         try {

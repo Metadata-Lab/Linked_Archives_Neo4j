@@ -39,6 +39,7 @@ public class Person extends Entity {
     }
 
     public Collection relatedCollection() {
+        //get collection related to items related to person
         for (Entity rel : related) {
             Collection coll = rel.relatedCollection();
             if (coll != null) return coll;
@@ -51,6 +52,7 @@ public class Person extends Entity {
         for (String r : roles) { roleString.append(r).append(", "); }
         if (roleString.length() != 0) roleString.append(roleString.substring(0, roleString.length()-2));
         String cypherNode;
+        //make person node based on whether or not wikidata information exists
         if (wikidata_id != null)
             cypherNode = ":Person {name: '" + getLabel() + "', iri: '" + getIrisAsString() + "', roles: '" + roleString.toString() +
                     "', wikidata_id:'" + wikidata_id + "', wikidata_name:'" + wikidata_name +
@@ -67,12 +69,14 @@ public class Person extends Entity {
         StringBuilder cypher = new StringBuilder();
         cypher.append("CREATE (").append(getNodeString()).append(")\n");
         int countRel = 1;
+        //match all related entities
         for (Entity rel : related) {
             if (rel == null) continue;
             cypher.append("MATCH (e").append(countRel).append(rel.getNodeString()).append("), (p").append(getNodeString())
                     .append(")").append(" CREATE (p)-[:IS_RELATED_TO]->(e").append(countRel).append(")\n");
             countRel++;
         }
+        //check if person has facets, create relationships if they do
         if (countries != null) {
             int countc = 1;
             for (Facet c : countries) {
