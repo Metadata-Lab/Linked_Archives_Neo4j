@@ -4,7 +4,7 @@
 
 ### Code
 
-Comments to be added in individual files for more details!
+Comments in individual files for more details!
 
 `main.java` - runs the process of transforming ontology and reconciliation into Cypher statements.
 
